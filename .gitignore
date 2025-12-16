@@ -1,0 +1,22 @@
+# LazyVim test files
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+
+# Logs
+*.log
+
+# Data files
+data
+
+# Plugin lock file (optional: some prefer to commit this)
+# lazy-lock.json
+
+# Neovim state files
+*.swp
+*.swo
+*~
+.DS_Store
