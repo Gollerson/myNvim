@@ -46,7 +46,7 @@ return {
 
   -- Mason for LSP/DAP/Linter installation
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
         "pyright",

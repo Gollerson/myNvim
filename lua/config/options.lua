@@ -24,7 +24,7 @@ opt.smartcase = true
 opt.hlsearch = true
 
 -- Cursor line
-opt.cursorline = true
+opt.cursorline = false
 
 -- Appearance
 opt.termguicolors = true

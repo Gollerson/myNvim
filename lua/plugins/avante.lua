@@ -5,14 +5,17 @@ return {
   version = false,
   opts = {
     -- Provider configuration
-    provider = "claude",
-    auto_suggestions_provider = "claude",
-    claude = {
-      endpoint = "https://api.anthropic.com",
-      model = "claude-sonnet-4-5-20250929",
-      temperature = 0,
-      max_tokens = 8096,
-      -- API key will be read from environment variable ANTHROPIC_API_KEY
+    provider = "openai",
+    auto_suggestions_provider = "openai",
+    openai = {
+      endpoint = "http://127.0.0.1:11434/v1",
+      model = "qwen2.5-coder:7b",
+      api_key_name = "",
+      timeout = 30000,
+    },
+    -- Set dummy env var for local Ollama
+    env = {
+      OPENAI_API_KEY = "dummy",
     },
     -- Behavior settings
     behaviour = {
@@ -109,8 +112,7 @@ return {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     --- The below dependencies are optional,
-    "echasnovski/mini.icons",
-    "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "nvim-mini/mini.icons",
     {
       -- support for image pasting
       "HakonHarnes/img-clip.nvim",
