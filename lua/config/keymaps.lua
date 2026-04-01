@@ -22,44 +22,35 @@ vim.keymap.set("n", "<S-F5>", function()
   require("dap").terminate()
 end, { desc = "Debug: Stop" })
 
+-- Toggle Pyright LSP on/off
+vim.keymap.set("n", "<leader>lp", function()
+  local clients = vim.lsp.get_active_clients()
+  local pyright_running = false
+  for _, client in ipairs(clients) do
+    if client.name == "pyright" then
+      pyright_running = true
+      client.stop()
+      vim.notify("Pyright stopped", vim.log.levels.INFO)
+      break
+    end
+  end
+  if not pyright_running then
+    vim.lsp.start({
+      name = "pyright",
+      cmd = { "pyright-langserver", "--stdio" },
+    })
+    vim.notify("Pyright started", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle Pyright LSP" })
+
+-- LSP rename
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
+  end,
+})
+
 -- Half-page jumps with cursor centering
 vim.keymap.set("n", "<C-j>", "<C-d>zz", { desc = "Half page down and center" })
 vim.keymap.set("n", "<C-k>", "<C-u>zz", { desc = "Half page up and center" })
 
--- Helper function to ensure Ollama is running
-local function ensure_ollama_running(callback)
-  -- Check if ollama is running
-  vim.fn.jobstart("pgrep -x ollama", {
-    on_exit = function(_, exit_code)
-      if exit_code == 0 then
-        -- Already running, execute callback immediately
-        if callback then callback() end
-      else
-        -- Not running, start it
-        vim.notify("Starting Ollama...", vim.log.levels.INFO)
-        vim.fn.jobstart("ollama serve", {
-          detach = true,
-          on_exit = function() end,
-        })
-        -- Wait 2 seconds for Ollama to start, then execute callback
-        vim.defer_fn(function()
-          vim.notify("Ollama ready!", vim.log.levels.INFO)
-          if callback then callback() end
-        end, 2000)
-      end
-    end,
-  })
-end
-
--- Override Avante keybindings to auto-start Ollama
-vim.api.nvim_create_autocmd("User", {
-  pattern = "LazyVimKeymaps",
-  callback = function()
-    -- Override the default Avante ask keybinding
-    vim.keymap.set({ "n", "v" }, "<leader>aa", function()
-      ensure_ollama_running(function()
-        vim.cmd("AvanteAsk")
-      end)
-    end, { desc = "Avante: Ask AI (auto-start Ollama)" })
-  end,
-})

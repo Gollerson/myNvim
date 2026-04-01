@@ -34,6 +34,19 @@ opt.signcolumn = "yes"
 opt.backspace = "indent,eol,start"
 
 -- Clipboard
+if vim.fn.filereadable("/.dockerenv") == 1 then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
 opt.clipboard:append("unnamedplus")
 
 -- Split windows
@@ -42,3 +55,5 @@ opt.splitbelow = true
 
 -- Python provider
 vim.g.python3_host_prog = vim.fn.exepath("python3")
+
+vim.g.colorscheme = "tokyonight"

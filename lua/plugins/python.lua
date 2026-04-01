@@ -16,9 +16,8 @@ return {
             },
           },
         },
-        ruff_lsp = {
+        ruff = {
           on_attach = function(client, bufnr)
-            -- Disable hover in favor of Pyright
             client.server_capabilities.hoverProvider = false
           end,
         },
@@ -35,6 +34,7 @@ return {
         "dockerfile",
         "bash",
         "json",
+        "jsonc",
         "yaml",
         "toml",
         "lua",
@@ -50,10 +50,8 @@ return {
     opts = {
       ensure_installed = {
         "pyright",
-        "ruff-lsp",
+        "ruff",
         "debugpy",
-        "black",
-        "isort",
       },
     },
   },

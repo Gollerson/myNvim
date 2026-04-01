@@ -14,13 +14,14 @@ return {
 
     -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
     -- Smears and particles will look a lot less blocky.
-    legacy_computing_symbols_support = true,
+    legacy_computing_symbols_support = false,
 
     -- Smear cursor in insert mode.
     -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
     smear_insert_mode = true,
 
     particles_enabled = true, -- When true, better to also set `never_draw_over_target` to true,
+    never_draw_over_target = true,
     particle_max_num = 100,
     particle_spread = 2, -- 0: no spread, 1: spread over entire cursor,
     particles_per_second = 200,

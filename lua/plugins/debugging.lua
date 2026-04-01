@@ -52,10 +52,16 @@ return {
         "mfussenegger/nvim-dap-python",
         ft = "python",
         config = function()
-          -- Setup debugpy path
-          local debugpy_path = vim.fn.exepath("debugpy-adapter")
-          if debugpy_path == "" then
-            debugpy_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+          -- Use container venv if available, otherwise fall back to mason debugpy
+          local venv_python = "/home/sxs/.venv/bin/python"
+          local debugpy_path
+          if vim.fn.executable(venv_python) == 1 then
+            debugpy_path = venv_python
+          else
+            debugpy_path = vim.fn.exepath("debugpy-adapter")
+            if debugpy_path == "" then
+              debugpy_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+            end
           end
           require("dap-python").setup(debugpy_path)
         end,
