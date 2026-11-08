@@ -52,18 +52,17 @@ return {
         "mfussenegger/nvim-dap-python",
         ft = "python",
         config = function()
-          -- Use container venv if available, otherwise fall back to mason debugpy
-          local venv_python = "/home/sxs/.venv/bin/python"
-          local debugpy_path
-          if vim.fn.executable(venv_python) == 1 then
-            debugpy_path = venv_python
-          else
-            debugpy_path = vim.fn.exepath("debugpy-adapter")
-            if debugpy_path == "" then
-              debugpy_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
-            end
+          local python = require("config.python")
+          local dap_python = require("dap-python")
+          -- Interpreter that has debugpy installed: the project interpreter if
+          -- debugpy lives there, otherwise the debugpy installed by mason
+          -- (persisted in the nvim data volume).
+          dap_python.setup(python.debug_python())
+          -- Pin the interpreter the debuggee runs with (devnvim.sh overrides
+          -- PATH, so rely on detection instead of env vars).
+          dap_python.resolve_python = function()
+            return python.debug_python()
           end
-          require("dap-python").setup(debugpy_path)
         end,
       },
     },

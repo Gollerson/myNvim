@@ -2,15 +2,15 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    lazy = false,
+    lazy = true,
   },
   {
     "EdenEast/nightfox.nvim",
-    lazy = false,
+    lazy = true,
   },
   {
     "scottmckendry/cyberdream.nvim",
-    lazy = false,
+    lazy = true,
   },
   {
     "folke/tokyonight.nvim",
@@ -22,6 +22,13 @@ return {
         sidebars = "transparent",
         floats = "transparent",
       },
+    },
+  },
+  {
+    "folke/snacks.nvim",
+    keys = {
+      -- Persist the chosen colorscheme across restarts
+      { "<leader>uC", function() require("config.colorscheme").pick() end, desc = "Colorscheme with Preview" },
     },
   },
 }

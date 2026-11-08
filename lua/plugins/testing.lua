@@ -13,13 +13,7 @@ return {
         adapters = {
           require("neotest-python")({
             runner = "pytest",
-            python = function()
-              local venv = "/home/sxs/.venv/bin/python"
-              if vim.fn.executable(venv) == 1 then
-                return venv
-              end
-              return vim.fn.exepath("python3") or "python3"
-            end,
+            python = require("config.python").detect_python,
           }),
         },
       }

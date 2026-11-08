@@ -24,7 +24,7 @@ end, { desc = "Debug: Stop" })
 
 -- Toggle Pyright LSP on/off
 vim.keymap.set("n", "<leader>lp", function()
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
   local pyright_running = false
   for _, client in ipairs(clients) do
     if client.name == "pyright" then
@@ -53,4 +53,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Half-page jumps with cursor centering
 vim.keymap.set("n", "<C-j>", "<C-d>zz", { desc = "Half page down and center" })
 vim.keymap.set("n", "<C-k>", "<C-u>zz", { desc = "Half page up and center" })
+
+-- Return to the snacks dashboard (start screen) from anywhere.
+-- (leader D is the devcontainer group, leader d is DAP, so use leader H = Home)
+vim.keymap.set("n", "<leader>H", function()
+  require("snacks").dashboard()
+end, { desc = "Dashboard (home)" })
 

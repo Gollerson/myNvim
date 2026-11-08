@@ -7,11 +7,15 @@ return {
         pyright = {
           settings = {
             python = {
+              -- Resolve imports against the container's interpreter
+              -- (venv-aware; both keys kept for pyright version compatibility)
+              pythonPath = require("config.python").detect_python(),
               analysis = {
                 typeCheckingMode = "basic",
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
                 diagnosticMode = "workspace",
+                pythonPath = require("config.python").detect_python(),
               },
             },
           },
